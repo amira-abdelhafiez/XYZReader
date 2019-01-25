@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.graphics.Palette;
@@ -235,7 +236,9 @@ public class ArticleDetailFragment extends Fragment implements
                                 + "</font>"));
 
             }
-            bodyView.setText(Html.fromHtml(mCursor.getString(ArticleLoader.Query.BODY).replaceAll("(\r\n|\n)", "<br />")));
+
+            String body = mCursor.getString(ArticleLoader.Query.BODY).replaceAll("(\r\n|\n)", "<br />").replaceAll("(\\d\\.\\s.*?\\.)","$1<br>").replaceAll("(\r\n)"," ").replaceAll("(\r\n){2}(?!(&gt;))", "<br><br>");
+            bodyView.setText(Html.fromHtml(body));
             ImageLoaderHelper.getInstance(getActivity()).getImageLoader()
                     .get(mCursor.getString(ArticleLoader.Query.PHOTO_URL), new ImageLoader.ImageListener() {
                         @Override
